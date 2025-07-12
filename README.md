@@ -8,6 +8,10 @@ To identify spatially variable genes (SVGs) in population-level spatial transcri
 
 ## Installation
 
+```bash
+pip install git+https://github.com/ToryDeng/PopSVG.git
+```
+
 ## Tutorials
 ### The CPU version
 
