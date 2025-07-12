@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "popsvg"
+dynamic = ["version"]
+authors = [
+    {name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}
+]
+maintainers = [
+    {name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}
+]
+description = "A statistical model that captures the spatial variability dynamics of genes across population."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies= [
+    "anndata>=0.10.9",
+    "numpy>=2.2.4",
+    "formulaic>=1.1.1",
+    "joblib>=1.4.2",
+    "tqdm>=4.67.1",
+    "scipy>=1.15.2",
+    "scikit-learn>=1.5.2",
+    "squidpy>=1.6.5",
+    "scanpy>=1.11.1",
+]
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools_scm]
+# version_file = "popsvg/_version.py"
