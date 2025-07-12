@@ -15,7 +15,7 @@ To identify spatially variable genes (SVGs) in population-level spatial transcri
 
 ## Tested environments
 |               | Environment 1             | Environment 2          |
-|---------------|---------------------------|------------------------|
+|:-------------:|:-------------------------:|:----------------------:|
 | **CPU**       | Intel Xeon Platinum 8276L | Intel Xeon Gold 6240R  |
 | **GPU**       | NVIDIA RTX 3090           | NVIDIA RTX A6000       |
 | **Memory**    | 256 GB                    | 256GB                  |

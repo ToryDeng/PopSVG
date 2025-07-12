@@ -5,14 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "popsvg"
 dynamic = ["version"]
-authors = [
-    {name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}
-]
-maintainers = [
-    {name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}
-]
+authors = [{name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}]
+maintainers = [{name = "Tao Deng", email = "taodeng@link.cuhk.edu.cn"}]
 description = "A statistical model that captures the spatial variability dynamics of genes across population."
 readme = "README.md"
+license = "GPL-3.0-or-later"
 requires-python = ">=3.10,<3.13"
 dependencies= [
     "anndata>=0.10.9",
@@ -26,11 +23,20 @@ dependencies= [
     "scanpy>=1.11.1",
 ]
 
+[project.urls]
+"Issue Tracker" = "https://github.com/ToryDeng/PopSVG/issues"
+"Source Code" = "https://github.com/ToryDeng/PopSVG"
+
+[project.optional-dependencies]
+gpu = ["jax[cuda12]>=0.6.0"]
+
 [tool.setuptools]
 include-package-data = false
 
 [tool.setuptools.packages.find]
 where = ["."]
+exclude = ["docs"]
 
 [tool.setuptools_scm]
-# version_file = "popsvg/_version.py"
+write_to = "popsvg/_version.py"
+write_to_template = "__version__ = '{version}'\n"
