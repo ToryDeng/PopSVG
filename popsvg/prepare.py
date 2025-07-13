@@ -59,6 +59,47 @@ def preprocess_slices(
     target_sum: float | None = None,
     scale: bool = False,
 ):
+    """Preprocess multiple spatial transcriptomics slices with unified feature filtering
+
+    Performs consistent preprocessing across multiple AnnData slices including:
+    - Feature uniqueness and consistency validation
+    - Mitochondrial and low-expression gene filtering
+    - Spatial neighborhood computation
+    - Isolated spot removal
+    - Log-normalization and optional scaling
+
+    Parameters
+    ----------
+    adatas : list[sc.AnnData]
+        List of AnnData objects containing spatial transcriptomics data.
+        All slices must have identical features (genes) to ensure compatibility.
+    coord_type : Literal[&quot;hex&quot;, &quot;square&quot;, &quot;generic&quot;]
+        Type of spatial coordinates system:
+        - "hex": Hexagonal grid
+        - "square": Regular grid
+        - "generic": Arbitrary coordinates
+    spatial_key : str, optional
+        Key in `.obsm` where spatial coordinates are stored, by default "spatial"
+    prefixes : str | tuple, optional
+        Prefixes used to identify mitochondrial genes, by default ("MT-", "mt-")
+    min_counts : int, optional
+        Minimum expression count threshold for gene retention. Genes expressed below
+        this threshold in at least min_pct% of spots are filtered, by default 1
+    min_pct : float, optional
+        Minimum percentage of spots where a gene must meet min_counts threshold to be
+        retained, by default 1
+    target_sum : float | None, optional
+        Target sum for normalization (median count if None), by default None
+    scale : bool, optional
+        Whether to scale data to unit variance and zero mean after normalization,
+        by default False
+
+    Raises
+    ------
+    ValueError
+        If input slices have different genes or feature counts;
+        If `coord_type` is not one of ("hex", "square", "generic")
+    """
     feature_count, feature_names = None, None
     feature_unwanted = []
 

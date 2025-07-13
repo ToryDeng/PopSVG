@@ -49,6 +49,61 @@ class TwoStageExpectationMaximizer:
         random_state: int = 0,
         n_workers: int = 1,
     ):
+        """Two-stage Expectation-Maximization algorithm for population-level SVG detection
+
+        Implements a two-stage EM algorithm to identify spatially variable genes (SVGs)
+        at the population level. The model assumes:
+        - Stage 1: Gene-level mixture model with two components (spatial/non-spatial)
+        - Stage 2: Population-level mixture model based on Stage 1 results
+
+        The algorithm estimates:
+        1) Gene-specific expression parameters (mean, variance)
+        2) Population-level spatial gene prevalence (π)
+        3) Gene assignment probabilities to spatial/non-spatial groups
+
+        Parameters
+        ----------
+        rho_cutoff : float, optional
+            Minimum acceptable population dependency for SVGs,
+            converted to log-space threshold (alpha_cutoff), by default 5e-2
+        tol : float, optional
+            Convergence tolerance for log-likelihood change between iterations,
+            by default 1e-3
+        max_iter : int, optional
+            Maximum number of iterations per EM stage, by default 100
+        init_params : Literal["kmeans", "k-means++"], optional
+            Initialization method for latent variable assignment:
+            - "kmeans": Standard k-means clustering
+            - "k-means++": K-means++ initialization, by default "kmeans"
+        random_state : int, optional
+            Random seed for reproducible initialization, by default 0
+        n_workers : int, optional
+            Number of parallel workers for gene-wise initialization, by default 1
+
+        Attributes
+        ----------
+        n_components : int
+            Fixed to 2 (non-spatial/spatial components)
+        weights_ : ndarray
+            [n_features, 2] Mixture weights in stage 1. The second column contains gene-level prevalence
+        means_ : ndarray
+            [n_features] Mean dependency parameters for population-level SVGs
+        sigma2_ : ndarray
+            [n_features] Variance of alpha
+        rate_ : ndarray
+            [2] Ratio of population-level SVGs (π)
+        is_group_spatial : ndarray
+            [n_features] Boolean mask indicating SVGs in each subject after Stage 1
+        converged : ndarray
+            [2] Boolean flags indicating convergence per EM stage
+
+        Methods
+        -------
+        fit(X, kappa2)
+            Fit model to data with two-stage EM
+        predict_proba(X, force_latent=True)
+            Predict population-level SVG probabilities
+        """
         self.rho_cutoff = rho_cutoff
         self.alpha_cutoff = np.log(1 - rho_cutoff)
         self.tol = tol
